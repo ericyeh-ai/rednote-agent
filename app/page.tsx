@@ -1,162 +1,53 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
-import { Materials, Message, AutoSuggestion } from "./types";
-import { mockAiReply, getNextId } from "./utils/ai";
-import { getMockAISuggestions, applyMockAutoFix } from "./utils/mockAiSuggestions";
-import { createRevision, DraftRevision } from "./utils/draftRevisionTracking";
 import { MaterialsPanel } from "./components/MaterialsPanel";
 import { ChatPanel } from "./components/ChatPanel";
 import { DraftPanel } from "./components/DraftPanel";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useMaterialsState } from "./hooks/useMaterialsState";
+import { useChatState } from "./hooks/useChatState";
+import { useDraftState } from "./hooks/useDraftState";
 
 // ─── Root ────────────────────────────────────────────────────────────────────
 
-const defaultMaterials: Materials = {
-  restaurant: "",
-  location: "",
-  dishes: "",
-  notes: "",
-};
-
 export default function Home() {
-  const [materials, setMaterials] = useLocalStorage<Materials>(
-    "rednote_materials",
-    defaultMaterials
-  );
-  const [messages, setMessages] = useLocalStorage<Message[]>(
-    "rednote_messages",
-    []
-  );
-  const [draft, setDraft] = useLocalStorage<string>("rednote_draft", "");
-  const [previousDraft, setPreviousDraft] = useLocalStorage<string>(
-    "rednote_previousDraft",
-    ""
-  );
-  const [revisions, setRevisions] = useLocalStorage<DraftRevision[]>(
-    "rednote_revisions",
-    []
-  );
-  const [autoSuggestions, setAutoSuggestions] = useState<AutoSuggestion[]>([]);
-  const suggestionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // State management hooks
+  const { materials, handleMaterialChange } = useMaterialsState();
+  const { messages, handleSend: sendMessage, addMessage, extractDraftFromResponse } =
+    useChatState();
+  const {
+    draft,
+    setDraft,
+    setPreviousDraft,
+    autoSuggestions,
+    handleDraftChange,
+    handleApplySuggestion: applySuggestion,
+    handleIgnoreSuggestion,
+  } = useDraftState();
 
-  // Auto-generate suggestions when draft changes
-  const handleDraftChange = useCallback((newDraft: string) => {
-    setDraft(newDraft);
-
-    // Track revision if content changed from previous draft
-    if (previousDraft !== newDraft && previousDraft.trim() !== "") {
-      const revision = createRevision(previousDraft, newDraft);
-      setRevisions((prev) => [...prev, revision]);
-    }
-
-    // Clear pending suggestion timeout
-    if (suggestionTimeoutRef.current) {
-      clearTimeout(suggestionTimeoutRef.current);
-    }
-
-    // Generate suggestions after a short delay (debounce)
-    suggestionTimeoutRef.current = setTimeout(() => {
-      const suggestions = getMockAISuggestions(previousDraft, newDraft);
-      if (suggestions.length > 0) {
-        setAutoSuggestions(suggestions);
-      }
-      setPreviousDraft(newDraft);
-    }, 800);
-  }, [previousDraft]);
-
-  // Clean up timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (suggestionTimeoutRef.current) {
-        clearTimeout(suggestionTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  // Clean up duplicate message IDs on mount
-  useEffect(() => {
-    if (messages.length > 0) {
-      const ids = new Set<number>();
-      let hasDuplicates = false;
-      
-      for (const msg of messages) {
-        if (ids.has(msg.id)) {
-          hasDuplicates = true;
-          break;
-        }
-        ids.add(msg.id);
-      }
-      
-      // If duplicates found, clear all messages to start fresh
-      if (hasDuplicates) {
-        console.warn("Duplicate message IDs detected, clearing chat history");
-        setMessages([]);
-      }
-    }
-  }, []); // Run only once on mount
-
-  function handleMaterialChange(field: keyof Materials, value: string) {
-    setMaterials((prev) => ({ ...prev, [field]: value }));
-  }
-
+  // Handle chat message sending
   function handleSend(text: string) {
-    const userMsg: Message = {
-      id: getNextId(),
-      role: "user",
-      text,
-      timestamp: Date.now(),
-    };
-    const aiText = mockAiReply(text, materials);
-    const aiMsg: Message = {
-      id: getNextId(),
-      role: "ai",
-      text: aiText,
-      timestamp: Date.now(),
-    };
-
-    setMessages((prev) => [...prev, userMsg, aiMsg]);
-    setAutoSuggestions([]); // Clear auto-suggestions when user sends message
-
+    const { userMsg, aiMsg } = sendMessage(text, materials);
+    
     // If AI response looks like a draft, push it to the editor
-    if (
-      text.includes("生成") ||
-      text.includes("草稿") ||
-      text.includes("寫")
-    ) {
-      const draftMatch = aiText.match(/「([\s\S]+?)」/);
-      if (draftMatch) {
-        setDraft(draftMatch[1]);
-        setPreviousDraft(draftMatch[1]);
-      }
+    const extractedDraft = extractDraftFromResponse(aiMsg.text);
+    if (extractedDraft) {
+      setDraft(extractedDraft);
+      setPreviousDraft(extractedDraft);
     }
+
+    // Clear auto-suggestions when user sends message
+    // (already handled by sendMessage)
   }
 
+  // Handle suggestion application
   function handleApplySuggestion(action: string) {
-    const updatedDraft = applyMockAutoFix(draft, action);
+    const updatedDraft = applySuggestion(action);
     
-    // Track revision when suggestion is applied
-    if (draft !== updatedDraft) {
-      const revision = createRevision(draft, updatedDraft);
-      setRevisions((prev) => [...prev, revision]);
-    }
-    
-    setDraft(updatedDraft);
-    setPreviousDraft(updatedDraft);
-    setAutoSuggestions([]);
-
     // Add confirmation message to chat
-    const confirmMsg: Message = {
-      id: getNextId(),
-      role: "ai",
-      text: `✅ 已為你應用「${action}」建議。草稿已更新！`,
-      timestamp: Date.now(),
-    };
-    setMessages((prev) => [...prev, confirmMsg]);
-  }
-
-  function handleIgnoreSuggestion(id: string) {
-    setAutoSuggestions((prev) => prev.filter((s) => s.id !== id));
+    addMessage(
+      "ai",
+      `✅ 已為你應用「${action}」建議。草稿已更新！`
+    );
   }
 
   return (

@@ -33,6 +33,7 @@ export function ChatPanel({
   onIgnoreSuggestion: (id: string) => void;
 }) {
   const [input, setInput] = useState("");
+  const [isComposing, setIsComposing] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,10 +53,19 @@ export function ChatPanel({
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey) {
+    // Only send on Enter if NOT composing (for Chinese/Japanese input support)
+    if (e.key === "Enter" && !e.shiftKey && !isComposing) {
       e.preventDefault();
       handleSend();
     }
+  }
+
+  function handleCompositionStart() {
+    setIsComposing(true);
+  }
+
+  function handleCompositionEnd() {
+    setIsComposing(false);
   }
 
   return (
@@ -108,6 +118,8 @@ export function ChatPanel({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           className="flex-1 resize-none bg-transparent text-sm text-zinc-700 placeholder:text-zinc-400 outline-none leading-relaxed"
         />
         <button
