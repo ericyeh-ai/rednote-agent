@@ -1,0 +1,108 @@
+# GitHub Issue Labeler Configuration
+# Labels help organize and prioritize issues
+
+labels:
+  # Priority
+  - name: priority-critical
+    color: "8B0000"
+    description: "Blocking all work / Production down"
+
+  - name: priority-high
+    color: "FF4444"
+    description: "Major feature or significant bug"
+
+  - name: priority-medium
+    color: "FFAA00"
+    description: "Standard issue"
+
+  - name: priority-low
+    color: "77DD77"
+    description: "Nice to have, can be deferred"
+
+  # Type
+  - name: bug
+    color: "D73A49"
+    description: "Something isn't working"
+
+  - name: enhancement
+    color: "A2EEEF"
+    description: "New feature or request"
+
+  - name: documentation
+    color: "0075CA"
+    description: "Improvements or additions to documentation"
+
+  - name: question
+    color: "D876E3"
+    description: "Further information is requested"
+
+  - name: good first issue
+    color: "7057FF"
+    description: "Good for newcomers"
+
+  - name: help wanted
+    color: "008672"
+    description: "Extra attention is needed"
+
+  # Status
+  - name: in-progress
+    color: "0366D6"
+    description: "Currently being worked on"
+
+  - name: blocked
+    color: "B60205"
+    description: "Blocked by another issue"
+
+  - name: requires-review
+    color: "FBCA04"
+    description: "Needs review before merge"
+
+  - name: wontfix
+    color: "FFFFFF"
+    description: "This will not be worked on"
+
+  - name: duplicate
+    color: "CCCCCC"
+    description: "This issue or pull request already exists"
+
+  # Domain
+  - name: "area:ui"
+    color: "1F883D"
+    description: "User interface and components"
+
+  - name: "area:state"
+    color: "1F883D"
+    description: "State management and hooks"
+
+  - name: "area:ai"
+    color: "1F883D"
+    description: "Mock AI and suggestions"
+
+  - name: "area:performance"
+    color: "1F883D"
+    description: "Performance optimization"
+
+  - name: "area:testing"
+    color: "1F883D"
+    description: "Testing and quality assurance"
+
+  - name: "area:infra"
+    color: "1F883D"
+    description: "Build, deployment, CI/CD"
+
+  # Technology
+  - name: "tech:nextjs"
+    color: "000000"
+    description: "Next.js framework"
+
+  - name: "tech:react"
+    color: "61DAFB"
+    description: "React library"
+
+  - name: "tech:typescript"
+    color: "3178C6"
+    description: "TypeScript type system"
+
+  - name: "tech:tailwind"
+    color: "38B2AC"
+    description: "Tailwind CSS styling"
