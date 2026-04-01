@@ -1,6 +1,6 @@
 # 🤝 貢獻指南
 
-感謝您對 Xiaohongshu 美食寫作助手的興趣!
+感謝您對 MomoPi 的興趣!
 
 ## 快速貢獻流程
 
@@ -8,8 +8,8 @@
 
 ```bash
 # Fork 並克隆
-git clone https://github.com/yourusername/rednote-agent.git
-cd rednote-agent
+git clone https://github.com/yourusername/momopi.git
+cd momopi
 
 # 安裝依賴
 npm install
@@ -219,7 +219,7 @@ fixes["actionName"] = (draft) => {
 
 ## 報告問題
 
-發現 bug 或有建議？[提起 Issue](https://github.com/yourusername/rednote-agent/issues)
+發現 bug 或有建議？[提起 Issue](https://github.com/yourusername/momopi/issues)
 
 **Issue 模板**
 ```markdown

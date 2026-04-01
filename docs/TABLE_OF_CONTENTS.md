@@ -1,6 +1,6 @@
 # 📚 文檔目錄
 
-歡迎來到 Xiaohongshu 美食寫作助手的文檔。選擇下面的主題開始：
+歡迎來到 MomoPi 的文檔。選擇下面的主題開始：
 
 ## 🚀 快速開始
 
@@ -114,7 +114,7 @@
 ## 🔍 快速查找
 
 ### 常用清單
-- 📝 localStorage 鍵: `rednote_*` (見 SETUP.md)
+- 📝 localStorage 鍵: `momopi_*` (見 SETUP.md)
 - 🎯 3 個主要 Hooks: useDraftState, useChatState, useMaterialsState
 - 🤖 6 項建議規則: 語氣/推薦/內容/emoji/長度/空白
 - 🛠️ 5 項自動修復: adjustTone, strengthenRecommendation, addEmoji, expandContent, custom

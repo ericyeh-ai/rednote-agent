@@ -6,13 +6,13 @@ import { createRevision } from "../utils/draftRevisionTracking";
 import { useLocalStorage } from "./useLocalStorage";
 
 export function useDraftState() {
-  const [draft, setDraft] = useLocalStorage<string>("rednote_draft", "");
+  const [draft, setDraft] = useLocalStorage<string>("momopi_draft", "");
   const [previousDraft, setPreviousDraft] = useLocalStorage<string>(
-    "rednote_previousDraft",
+    "momopi_previousDraft",
     ""
   );
   const [revisions, setRevisions] = useLocalStorage<DraftRevision[]>(
-    "rednote_revisions",
+    "momopi_revisions",
     []
   );
   const [autoSuggestions, setAutoSuggestions] = useState<AutoSuggestion[]>([]);

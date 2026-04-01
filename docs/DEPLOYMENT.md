@@ -1,6 +1,6 @@
 # 🚀 部署指南
 
-本指南涵蓋如何構建和部署 Xiaohongshu 美食寫作助手。
+本指南涵蓋如何構建和部署 MomoPi。
 
 ## 環境準備
 
@@ -103,10 +103,10 @@ CMD ["npm", "start"]
 
 ```bash
 # 構建鏡像
-docker build -t rednote-agent:latest .
+docker build -t momopi:latest .
 
 # 運行容器
-docker run -p 3000:3000 rednote-agent:latest
+docker run -p 3000:3000 momopi:latest
 ```
 
 ## 部署到其他平台

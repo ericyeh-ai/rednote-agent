@@ -10,10 +10,10 @@ import { SendIcon } from "./icons";
 function ChatEmpty() {
   return (
     <div className="flex flex-col items-center justify-center gap-3 py-12 text-center text-zinc-400">
-      <span className="text-4xl">✨</span>
-      <p className="text-sm font-medium text-zinc-500">開始跟 AI 對話</p>
+      <span className="text-4xl">🐾</span>
+      <p className="text-sm font-medium text-zinc-500">讓 Momo 幫你寫一下小紅書</p>
       <p className="text-xs leading-relaxed max-w-[200px]">
-        先在左側填入素材，再告訴我你想要什麼風格的貼文
+        先在左邊填餐廳資訊，Momo 會問你幾個問題，然後幫你起稿
       </p>
     </div>
   );
@@ -70,7 +70,7 @@ export function ChatPanel({
 
   return (
     <div className="flex h-full flex-col">
-      <PanelHeader icon="💬" title="AI 助手" subtitle="告訴我你想要什麼" />
+      <PanelHeader icon="🐾" title="Momo" subtitle="你的美食 AI 分身" />
 
       {/* Message list */}
       <div className="flex-1 overflow-y-auto space-y-4 pr-1">
@@ -96,7 +96,7 @@ export function ChatPanel({
 
       {/* Suggestions */}
       <div className="mt-3 flex flex-wrap gap-1.5">
-        {["✍️ 生成草稿", "💡 想標題", "🏷️ 推薦標籤", "🎨 輕鬆語氣"].map((s) => (
+        {["✍️ 生成草稿", "💡 想標題", "🏷️ 推薦標籤", "🎨 輕鬆一點"].map((s) => (
           <button
             key={s}
             onClick={() => {
@@ -114,7 +114,7 @@ export function ChatPanel({
       <div className="mt-3 flex items-end gap-2 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 focus-within:border-rose-300 focus-within:ring-2 focus-within:ring-rose-100 transition">
         <textarea
           rows={1}
-          placeholder="輸入指令，或描述你想要的效果⋯"
+          placeholder="跟 Momo 說說這餐如何，或是直接說「生成草稿」⋯"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}

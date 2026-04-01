@@ -11,7 +11,7 @@ const defaultMaterials: Materials = {
 
 export function useMaterialsState() {
   const [materials, setMaterials] = useLocalStorage<Materials>(
-    "rednote_materials",
+    "momopi_materials",
     defaultMaterials
   );
 

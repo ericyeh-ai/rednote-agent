@@ -1,8 +1,8 @@
-# Architecture: Xiaohongshu Writing Copilot
+# Architecture: MomoPi
 
 ## Project Goal
 
-**rednote-agent** is a writing copilot for Xiaohongshu (小红书) food creators. It helps writers craft better posts, but **the human stays in control at all times**.
+**MomoPi** is a co-writing companion for Xiaohongshu food creators. Momo helps writers craft better posts, but **the human stays in control at all times**.
 
 This is **not** a one-click generator. Instead, think of it as a thoughtful colleague who:
 - Watches what you write
@@ -75,9 +75,9 @@ Four main state domains, each with its own custom hook:
 
 | Hook | Manages | Persists To |
 |------|---------|-------------|
-| `useMaterialsState()` | Restaurant context, dishes, notes | `rednote_materials` |
-| `useChatState()` | Message history, user↔AI conversation | `rednote_messages` |
-| `useDraftState()` | Current draft text, suggestions, revisions | `rednote_draft`, `rednote_revisions` |
+| `useMaterialsState()` | Restaurant context, dishes, notes | `momopi_materials` |
+| `useChatState()` | Message history, user↔Momo conversation | `momopi_messages` |
+| `useDraftState()` | Current draft text, suggestions, revisions | `momopi_draft`, `momopi_revisions` |
 | `useLocalStorage()` | Generic key-value persistence | `localStorage` |
 
 Each hook:
@@ -108,7 +108,7 @@ Each hook:
 ### Persistence Layer
 
 **localStorage only** (no backend yet):
-- Keys namespaced with `rednote_*` prefix
+- Keys namespaced with `momopi_*` prefix
 - JSON serialization for complex objects
 - Automatic hydration on app load
 - Survives refreshes and browser closes

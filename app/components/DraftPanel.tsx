@@ -28,8 +28,8 @@ export function DraftPanel({
       {isEmpty ? (
         <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center text-zinc-400">
           <span className="text-4xl">📝</span>
-          <p className="text-sm">草稿會在這裡出現</p>
-          <p className="text-xs text-zinc-300">跟 AI 說「生成草稿」就可以開始</p>
+          <p className="text-sm">Momo 的草稿會出現在這裡</p>
+          <p className="text-xs text-zinc-300">跟 Momo 說「生成草稿」就可以開始</p>
         </div>
       ) : (
         <textarea

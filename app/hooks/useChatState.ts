@@ -5,7 +5,7 @@ import { useLocalStorage } from "./useLocalStorage";
 
 export function useChatState() {
   const [messages, setMessages] = useLocalStorage<Message[]>(
-    "rednote_messages",
+    "momopi_messages",
     []
   );
 

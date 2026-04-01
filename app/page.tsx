@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { MaterialsPanel } from "./components/MaterialsPanel";
 import { ChatPanel } from "./components/ChatPanel";
 import { DraftPanel } from "./components/DraftPanel";
@@ -7,9 +8,31 @@ import { useMaterialsState } from "./hooks/useMaterialsState";
 import { useChatState } from "./hooks/useChatState";
 import { useDraftState } from "./hooks/useDraftState";
 
+// ─── localStorage migration ───────────────────────────────────────────────────
+// One-time migration from old rednote_* keys to momopi_* keys.
+// Safe to remove after all users have been migrated.
+
+const KEY_MIGRATIONS: [string, string][] = [
+  ["rednote_materials", "momopi_materials"],
+  ["rednote_messages", "momopi_messages"],
+  ["rednote_draft", "momopi_draft"],
+  ["rednote_previousDraft", "momopi_previousDraft"],
+  ["rednote_revisions", "momopi_revisions"],
+];
+
+function migrateLocalStorageKeys() {
+  for (const [oldKey, newKey] of KEY_MIGRATIONS) {
+    if (!localStorage.getItem(newKey) && localStorage.getItem(oldKey)) {
+      localStorage.setItem(newKey, localStorage.getItem(oldKey)!);
+      localStorage.removeItem(oldKey);
+    }
+  }
+}
+
 // ─── Root ────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  useEffect(() => { migrateLocalStorageKeys(); }, []);
   // State management hooks
   const { materials, handleMaterialChange } = useMaterialsState();
   const { messages, handleSend: sendMessage, addMessage, extractDraftFromResponse } =
@@ -46,7 +69,7 @@ export default function Home() {
     // Add confirmation message to chat
     addMessage(
       "ai",
-      `✅ 已為你應用「${action}」建議。草稿已更新！`
+      `好，我幫你改了「${action}」這個部分，你看看這樣有沒有比較順？`
     );
   }
 
@@ -55,15 +78,18 @@ export default function Home() {
       {/* Header */}
       <header className="flex shrink-0 items-center justify-between border-b border-zinc-200 bg-white px-6 py-3">
         <div className="flex items-center gap-2.5">
-          <span className="text-xl">🍜</span>
-          <span className="text-sm font-bold text-zinc-900">小紅書美食助手</span>
+          <span className="text-xl">🐾</span>
+          <div>
+            <span className="text-sm font-bold text-zinc-900">MomoPi</span>
+            <p className="text-[10px] text-zinc-400 leading-tight">一個會吃、會記、會寫的 AI 分身</p>
+          </div>
           <span className="rounded-full bg-rose-100 px-2 py-0.5 text-[10px] font-medium text-rose-600">
             Beta
           </span>
         </div>
         <div className="flex items-center gap-2 text-xs text-zinc-400">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          AI 就緒
+          Momo 在線
         </div>
       </header>
 

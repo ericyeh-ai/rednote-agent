@@ -1,6 +1,6 @@
-# 小紅書美食寫作助手 (Xiaohongshu Food Writer Copilot)
+# MomoPi — 讓 Momo 幫你寫一下小紅書
 
-一個前端優先的 AI 寫作助手，幫助用戶快速創作小紅書美食筆記。使用 Next.js、React 和 TypeScript 構建，完全基於前端，無需後端或 API。
+一個會吃、會記、會寫的 AI 分身。使用 Next.js、React 和 TypeScript 構建，完全基於前端，無需後端或 API。
 
 ![Preview](https://img.shields.io/badge/Status-Alpha-yellow) ![License](https://img.shields.io/badge/License-MIT-blue) ![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-black)
 
@@ -8,7 +8,7 @@
 
 ### 核心功能
 - **✍️ 三面板布局** - 素材輸入、聊天對話、實時草稿編輯
-- **🤖 Mock AI 助手** - 規則引擎生成建議（無 API 調用）
+- **🐾 Momo 對話** - 規則引擎模擬 Momo 回應（無 API 調用）
 - **💡 智能建議系統** - 自動檢測：
   - 語氣變化
   - 內容長度
@@ -30,8 +30,8 @@
 
 ```bash
 # 克隆項目
-git clone https://github.com/yourusername/rednote-agent.git
-cd rednote-agent
+git clone https://github.com/yourusername/momopi.git
+cd momopi
 
 # 安裝依賴
 npm install
@@ -45,7 +45,7 @@ npm run dev
 ## 📁 項目結構
 
 ```
-rednote-agent/
+momopi/
 ├── app/
 │   ├── components/          # React 組件
 │   │   ├── ChatPanel.tsx    # 聊天介面
@@ -168,7 +168,7 @@ location.reload();
 
 ## 📧 聯繫方式
 
-有問題或建議？[提出 Issue](https://github.com/yourusername/rednote-agent/issues)
+有問題或建議？[提出 Issue](https://github.com/yourusername/momopi/issues)
 
 ---
 
